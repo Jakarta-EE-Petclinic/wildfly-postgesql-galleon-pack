@@ -8,7 +8,10 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Jakarta-EE-Petclinic: wildfly-postgesql-galleon-pack</name>
+    <name>wildfly-postgesql-galleon-pack</name>
+    <description>
+        Jakarta-EE-Petclinic: wildfly-postgesql-galleon-pack for local deployment of managed Wildfly Jakarta EE Server
+    </description>
 
     <organization>
         <name>Jakarta-EE-Petclinic</name>
