@@ -1,23 +1,315 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>org.woehlke.jakartaee</groupId>
   <artifactId>wildfly-postgesql-galleon-pack</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>wildfly-postgesql-galleon-pack</name>
+
+  <name>Jakarta-EE-Petclinic: wildfly-postgesql-galleon-pack</name>
+
+  <organization>
+    <name>Jakarta-EE-Petclinic</name>
+    <url>https://github.com/Jakarta-EE-Petclinic</url>
+  </organization>
+
+  <inceptionYear>2022</inceptionYear>
+
+  <developers>
+    <developer>
+      <id>thomaswoehlke</id>
+      <name>Thomas Woehlke</name>
+      <url>https://github.com/thomaswoehlke</url>
+      <timezone>Europe/Paris</timezone>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git@github.com:Jakarta-EE-Petclinic/wildfly-postgesql-galleon-pack.git</connection>
+    <developerConnection>scm:git:git@github.com:Jakarta-EE-Petclinic/wildfly-postgesql-galleon-pack.git</developerConnection>
+    <url>https://github.com/Jakarta-EE-Petclinic/wildfly-postgesql-galleon-pack/tree/${project.scm.tag}</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <issueManagement>
+    <url>https://github.com/Jakarta-EE-Petclinic/jakartaee-petclinic/issues</url>
+    <system>GitHub</system>
+  </issueManagement>
+  <distributionManagement>
+    <site>
+      <id>localhost</id>
+      <url>file:///${user.home}/public_html/p/wildfly-postgesql-galleon-pack</url>
+    </site>
+  </distributionManagement>
 
   <properties>
-    <!-- Wildfly -->
+    <java.version>11</java.version>
+    <!--- Build Infrastructure -->
+    <version.maven>3.6.3</version.maven>
+    <junit.version>5.8.2</junit.version>
+    <version.org.apache.maven.scm>1.13.0</version.org.apache.maven.scm>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <skipIntegrationTests>true</skipIntegrationTests>
+    <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+    <root.dir>${project.basedir}</root.dir>
+
     <version.wildfly-runtime>26.1.1.Final</version.wildfly-runtime>
+    <version.mariadb-java-client>2.7.2</version.mariadb-java-client>
+    <version.wildfly-galleon-maven-plugin>5.2.8.Final</version.wildfly-galleon-maven-plugin>
   </properties>
+
+  <repositories>
+    <repository>
+      <id>central</id>
+      <name>Central Repository</name>
+      <url>https://repo1.maven.org/maven2/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>jcenter</id>
+      <name>JCenter Repository</name>
+      <url>https://jcenter.bintray.com/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>jboss-releases</id>
+      <name>JBoss Releases Repository</name>
+      <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>jboss-thirdparty-releases</id>
+      <name>JBoss 3rd-party Repository</name>
+      <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>sonatype-releases</id>
+      <name>Sonatype Repository</name>
+      <url>https://oss.sonatype.org/content/repositories/releases/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>jboss-public</id>
+      <name>JBoss Public Repository</name>
+      <url>https://repository.jboss.org/nexus/content/repositories/public/</url>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>redhat-ga</id>
+      <name>Redhat GA Repository</name>
+      <url>https://maven.repository.redhat.com/ga/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>ICM</id>
+      <name>ICM Repository</name>
+      <url>https://maven.icm.edu.pl/artifactory/repo/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>Archive</id>
+      <name>Archive Repository</name>
+      <url>http://builds.archive.org/maven2/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>jahia</id>
+      <name>Jahia Repository</name>
+      <url>https://maven.jahia.org/maven2/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>aspose</id>
+      <name>Aspose Repository</name>
+      <url>https://repository.aspose.com/repo/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>OneBusAway-Pub</id>
+      <name>OneBusAway Pub Repository</name>
+      <url>http://nexus.onebusaway.org/nexus/content/repositories/public/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>primefaces</id>
+      <name>Primefaces Repository</name>
+      <url>https://repository.primefaces.org</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>payara-nexus-artifacts</id>
+      <url>https://nexus.payara.fish/repository/payara-artifacts</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>Central</id>
+      <name>Central Repository</name>
+      <url>https://repo1.maven.org/maven2/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+      <id>primefaces-repo</id>
+      <name>PrimeFaces Maven Repository</name>
+      <url>https://repository.primefaces.org</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+      <id>java.net-public</id>
+      <name>Maven Java Net Snapshots and Releases</name>
+      <url>https://maven.java.net/content/groups/public/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+      <id>jboss-3rd-party-repository</id>
+      <name>JBoss 3rd-party Repository</name>
+      <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+      <id>jboss-public-repository-group</id>
+      <name>JBoss Public Maven Repository Group</name>
+      <url>https://repository.jboss.org/nexus/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+      <id>Alfresco</id>
+      <name>Alfresco Repository</name>
+      <url>https://artifacts.alfresco.com/nexus/content/repositories/public/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+      <id>payara-nexus-artifacts</id>
+      <url>https://nexus.payara.fish/repository/payara-artifacts</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
 
   <dependencyManagement>
     <dependencies>
       <dependency>
         <groupId>org.wildfly.galleon-plugins</groupId>
         <artifactId>wildfly-galleon-maven-plugin</artifactId>
-        <version>5.2.8.Final</version>
+        <version>${version.wildfly-galleon-maven-plugin}</version>
+        <type>maven-plugin</type>
+        <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.wildfly</groupId>
@@ -28,15 +320,16 @@
       <dependency>
         <groupId>org.mariadb.jdbc</groupId>
         <artifactId>mariadb-java-client</artifactId>
-        <version>2.7.2</version>
+        <version>${version.mariadb-java-client}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
-
   <dependencies>
     <dependency>
       <groupId>org.wildfly.galleon-plugins</groupId>
       <artifactId>wildfly-galleon-maven-plugin</artifactId>
+      <type>maven-plugin</type>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.wildfly</groupId>
@@ -50,6 +343,16 @@
   </dependencies>
 
   <build>
+    <defaultGoal>clean install</defaultGoal>
+    <pluginManagement>
+      <plugins>
+          <plugin>
+            <groupId>org.wildfly.galleon-plugins</groupId>
+            <artifactId>wildfly-galleon-maven-plugin</artifactId>
+            <version>${version.wildfly-galleon-maven-plugin}</version>
+          </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.wildfly.galleon-plugins</groupId>
@@ -66,6 +369,5 @@
       </plugin>
     </plugins>
   </build>
-
 
 </project>
